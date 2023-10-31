@@ -74,16 +74,15 @@ def index():
 @app.route('/image')
 def spy_pixel():
     file_path = os.path.join(os.path.dirname(__file__), 'static', 'spy_pixel.png')
-    client_ip = request.headers.get('X-Forwarded-For')
+
     user_agent = request.headers.get('User-Agent')
-    ic(client_ip)
+
     current_time = datetime.datetime.now()
     sql_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
     ip = request.remote_addr
-    ic(ip)
     data = fetch_data(ip)
-    ic(data)
+    ic(ip, data, sql_time, user_agent)
     insert_data(data, sql_time, user_agent)
 
     return send_file(file_path, mimetype='image/png')

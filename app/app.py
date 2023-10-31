@@ -28,7 +28,7 @@ def insert_data(data, time_stamp, user_agent):
     cursor = mysql.connection.cursor()
 
     query = """
-INSERT INTO IP(
+INSERT INTO Informations(
     ip,
     city,
     region,

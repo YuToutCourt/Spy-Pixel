@@ -74,13 +74,13 @@ def spy_pixel():
     user_agent = request.headers.get('User-Agent')
 
     current_time = datetime.datetime.now()
-    time_stamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    sql_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
     ip = request.remote_addr
 
     data = fetch_data(ip)
 
-    insert_data(data, time_stamp, user_agent)
+    insert_data(data, sql_time, user_agent)
 
 
     return send_file(file_path, mimetype='image/png')

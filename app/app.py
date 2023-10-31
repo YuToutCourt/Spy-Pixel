@@ -2,20 +2,18 @@ import os
 import json
 import datetime
 import urllib.request
+import mariadb  # Import the mariadb module
 
 from flask import Flask, send_file, request, jsonify
-from flask_mysqldb import MySQL
-
 
 app = Flask(__name__)
 
+# Modify the database connection configuration for MariaDB
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'caca'
 app.config['MYSQL_PASSWORD'] = 'caca'
 app.config['MYSQL_DB'] = 'caca'
-
-mysql = MySQL(app)
-
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'  # Use a dictionary cursor for easier data access
 
 def fetch_data(ip):
     url = f"http://ipinfo.io/{ip}/json"
@@ -25,7 +23,13 @@ def fetch_data(ip):
     return data
 
 def insert_data(data, time_stamp, user_agent):
-    cursor = mysql.connection.cursor()
+    conn = mariadb.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cursor = conn.cursor()
 
     query = """
 INSERT INTO Informations(
@@ -56,16 +60,14 @@ values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     )
 
     cursor.execute(query, values)
-    mysql.connection.commit()
-    cursor.close()
-
+    conn.commit()
+    conn.close()
 
 @app.route('/')
 def index():
     response = jsonify({'error': 'Page not found'})
     response.status_code = 404
     return response
-
 
 @app.route('/image')
 def spy_pixel():
@@ -82,9 +84,7 @@ def spy_pixel():
 
     insert_data(data, sql_time, user_agent)
 
-
     return send_file(file_path, mimetype='image/png')
-
 
 if __name__ == '__main__':
     app.run()

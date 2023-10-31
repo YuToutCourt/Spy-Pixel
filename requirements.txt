@@ -1,4 +1,3 @@
-json
 flask
 flask_mysqldb
 urllib

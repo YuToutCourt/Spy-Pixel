@@ -47,13 +47,16 @@ def insert_data(data, time_stamp, user_agent):
         query = "UPDATE Informations SET TimeStamp=%s WHERE IP=%s"
         values = (time_stamp, data['ip'])
     else:
-        query = "INSERT INTO Informations(IP,City,Region,ZIP,Localisation,Organization,TimeZone,TimeStamp,User_Agent,Country) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        longitude = data['loc'].split(',')[0]
+        latitude = data['loc'].split(',')[1]
+        query = "INSERT INTO Informations(IP,City,Region,ZIP,Longitute,Latitude,Organization,TimeZone,TimeStamp,User_Agent,Country) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (
             data['ip'],
             data['city'],
             data['region'].encode("ascii", 'ignore'),
             data['postal'],
-            data['loc'],
+            longitude,
+            latitude,
             data['org'],
             data['timezone'],
             time_stamp,

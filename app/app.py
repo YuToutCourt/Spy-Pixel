@@ -54,7 +54,7 @@ def insert_data(data, time_stamp, user_agent):
     else:
         longitude = data['loc'].split(',')[0]
         latitude = data['loc'].split(',')[1]
-        query = "INSERT INTO Informations(IP,City,Region,ZIP,Longitute,Latitude,Organization,TimeZone,TimeStamp,User_Agent,Country) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO Informations(IP,City,Region,ZIP,Longitute,Latitude,Organization,TimeZone,TimeStamp,User_Agent,Country) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         
         try:
         

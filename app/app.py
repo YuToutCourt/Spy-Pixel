@@ -57,7 +57,7 @@ def insert_data(data, time_stamp, user_agent):
         query = "INSERT INTO Informations(IP,City,Region,ZIP,Longitude,Latitude,Organization,TimeZone,TimeStamp,User_Agent,Country) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         
         try:
-        
+            
             values = (
                 data['ip'],
                 data['city'],

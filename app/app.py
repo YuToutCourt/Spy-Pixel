@@ -103,10 +103,5 @@ def spy_pixel():
     return send_file(file_path, mimetype='image/png')
 
 if __name__ == '__main__':
-    ic.configureOutput(
-                       prefix='[SPYLOG]', includeContext=True, 
-                       includeVariables=True, includeExtra=True, 
-                       contextSeparator=' | ', outputFunction=output_to_file
-                       )
-    
+    ic.configureOutput(prefix='[SPYLOG]', includeContext=True,  outputFunction=output_to_file)
     app.run(debug=False, host="0.0.0.0", port="8081")

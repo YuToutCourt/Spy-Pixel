@@ -16,6 +16,11 @@ app.config['MYSQL_PASSWORD'] = 'caca'
 app.config['MYSQL_DB'] = 'mydb'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
+def output_to_file(data):
+    with open('spylog.txt', 'a') as f:
+        f.write(f"{data}\n")
+
+
 def establish_db_connection():
     return mariadb.connect(
         host=app.config['MYSQL_HOST'],
@@ -50,23 +55,30 @@ def insert_data(data, time_stamp, user_agent):
         longitude = data['loc'].split(',')[0]
         latitude = data['loc'].split(',')[1]
         query = "INSERT INTO Informations(IP,City,Region,ZIP,Longitute,Latitude,Organization,TimeZone,TimeStamp,User_Agent,Country) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (
-            data['ip'],
-            data['city'],
-            data['region'].encode("ascii", 'ignore'),
-            data['postal'],
-            longitude,
-            latitude,
-            data['org'],
-            data['timezone'],
-            time_stamp,
-            user_agent,
-            data['country']
-        )
+        
+        try:
+        
+            values = (
+                data['ip'],
+                data['city'],
+                data['region'].encode("ascii", 'ignore'),
+                data['postal'],
+                longitude,
+                latitude,
+                data['org'],
+                data['timezone'],
+                time_stamp,
+                user_agent,
+                data['country']
+            )
 
-    cursor.execute(query, values)
-    conn.commit()
-    conn.close()
+            cursor.execute(query, values)
+            conn.commit()
+            conn.close()
+
+        except Exception as e:
+            ic(e)
+            pass
 
 @app.route('/')
 def index():
@@ -91,4 +103,10 @@ def spy_pixel():
     return send_file(file_path, mimetype='image/png')
 
 if __name__ == '__main__':
+    ic.configureOutput(
+                       prefix='[SPYLOG]', includeContext=True, 
+                       includeVariables=True, includeExtra=True, 
+                       contextSeparator=' | ', outputFunction=output_to_file
+                       )
+    
     app.run(debug=False, host="0.0.0.0", port="8081")

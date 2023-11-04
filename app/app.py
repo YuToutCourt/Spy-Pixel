@@ -5,7 +5,7 @@ import mariadb
 import os
 
 from icecream import ic
-from flask import Flask, send_file, request, jsonify
+from flask import Flask, send_file, request, jsonify, render_template
 
 app = Flask(__name__)
 
@@ -93,19 +93,35 @@ def index():
 
 @app.route("/image")
 def spy_pixel():
-    file_path = os.path.join(os.path.dirname(__file__), "static", "spy_pixel.png")
+    # file_path = os.path.join(os.path.dirname(__file__), "static", "spy_pixel.png")
 
-    user_agent = request.headers.get("User-Agent")
+    # user_agent = request.headers.get("User-Agent")
 
-    current_time = datetime.datetime.now()
-    sql_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    # current_time = datetime.datetime.now()
+    # sql_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
-    ip = request.remote_addr
+    # ip = request.remote_addr
+    # data = fetch_data(ip)
+    # ic(ip, data, sql_time, user_agent)
+    # insert_data(data, sql_time, user_agent)
+
+    # return send_file(file_path, mimetype="image/png")
+
+    return render_template("index.html")
+
+@app.route("/suiiii", methods=["POST"])
+def handle_data_from_js():
+    data = request.get_json()
+    ip = data["ip"]
+    user_agent = data["user_agent"]
+    time_stamp = data["time_stamp"]
+
     data = fetch_data(ip)
-    ic(ip, data, sql_time, user_agent)
-    insert_data(data, sql_time, user_agent)
+    insert_data(data, time_stamp, user_agent)
 
-    return send_file(file_path, mimetype="image/png")
+    return jsonify({"status": "ok"})
+
+
 
 
 if __name__ == "__main__":

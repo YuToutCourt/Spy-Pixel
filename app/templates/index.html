@@ -1,0 +1,45 @@
+<h1>Super Mail</h1>
+
+
+<script>
+fetch('https://api.ipify.org?format=json')
+.then(response => response.json())
+.then(data => {
+  const userIP = data.ip;
+  sendDataToFlask(userIP);
+})
+.catch(error => {
+  console.error('Erreur lors de la récupération de l\'adresse IP');
+});
+
+
+function sendDataToFlask(ip) {
+    const apiUrl = '/suiiii'; // Replace with the actual URL of your Flask endpoint
+
+    const time_stamp = new Date().toISOString(); // Get the current timestamp
+
+    const user_agent = navigator.userAgent; // Get the user agent from the browser
+
+    const formData = {
+        ip: ip,
+        time_stamp: time_stamp,
+        user_agent: user_agent
+    };
+
+    fetch(apiUrl, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Data sent to Flask:", result);
+    })
+    .catch(error => {
+        console.error("Error sending data to Flask:", error);
+    });
+}
+
+</script>

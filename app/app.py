@@ -1,9 +1,9 @@
 import json
-import datetime
 import urllib.request
 import mariadb
 import os
 
+from datetime import datetime
 from icecream import ic
 from flask import Flask, send_file, request, jsonify, render_template
 
@@ -12,7 +12,7 @@ app = Flask(__name__)
 # Database configuration
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "caca"
-app.config["MYSQL_PASSWORD"] = "caca"
+app.config["MYSQL_PASSWORD"] = "test"
 app.config["MYSQL_DB"] = "mydb"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
@@ -102,11 +102,13 @@ def handle_data_from_js():
     user_agent = data["user_agent"]
     time_stamp = data["time_stamp"]
 
-    # time_stamp to datetime object
-    date_obj = datetime.datetime.strptime(time_stamp, "%Y%m%d%H%M%S")
-    print(date_obj)
+    date_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+    date_obj = datetime.strptime(time_stamp, date_format)
+
+    formatted_date = date_obj.strftime("%Y-%m-%d %H:%M:%S")
     data = fetch_data(ip)
-    insert_data(data, date_obj, user_agent)
+    ic(data, formatted_date, user_agent)
+    insert_data(data, formatted_date, user_agent)
 
     return jsonify({"status": "ok"})
 

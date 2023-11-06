@@ -93,20 +93,6 @@ def index():
 
 @app.route("/image")
 def spy_pixel():
-    # file_path = os.path.join(os.path.dirname(__file__), "static", "spy_pixel.png")
-
-    # user_agent = request.headers.get("User-Agent")
-
-    # current_time = datetime.datetime.now()
-    # sql_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
-
-    # ip = request.remote_addr
-    # data = fetch_data(ip)
-    # ic(ip, data, sql_time, user_agent)
-    # insert_data(data, sql_time, user_agent)
-
-    # return send_file(file_path, mimetype="image/png")
-
     return render_template("index.html")
 
 @app.route("/suiiii", methods=["POST"])
@@ -116,12 +102,13 @@ def handle_data_from_js():
     user_agent = data["user_agent"]
     time_stamp = data["time_stamp"]
 
+    # time_stamp to datetime object
+    date_obj = datetime.datetime.strptime(time_stamp, "%Y%m%d%H%M%S")
+    print(date_obj)
     data = fetch_data(ip)
-    insert_data(data, time_stamp, user_agent)
+    insert_data(data, date_obj, user_agent)
 
     return jsonify({"status": "ok"})
-
-
 
 
 if __name__ == "__main__":

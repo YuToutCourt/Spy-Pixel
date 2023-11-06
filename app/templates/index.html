@@ -3,13 +3,12 @@
 
 <script>
 fetch('https://api.ipify.org?format=json')
-.then(response => response.json())
-.then(data => {
-  const userIP = data.ip;
-  sendDataToFlask(userIP);
-})
-.catch(error => {
-  console.error('Erreur lors de la récupération de l\'adresse IP');
+        .then(response => response.json())
+        .then(data => {
+        const userIP = data.ip;
+        sendDataToFlask(userIP);
+    }).catch(error => {
+        console.error('Erreur lors de la récupération de l\'adresse IP');
 });
 
 

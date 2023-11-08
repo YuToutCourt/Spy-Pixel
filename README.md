@@ -86,14 +86,17 @@ THE REST OF YOUR EMAIL
 
 When the user opens the email, the image is loaded from the server, and the server logs the user's IP address.
 
-Please note that in many email clients, the email is opened by the email provider's proxy. In such cases, the logged IP address will be that of the proxy, not the user. To obtain the user's IP address, send the email directly to the user
+Please note that in many email clients, the email is opened by the email provider's proxy. In such cases, the logged IP address will be that of the proxy, not the user. You can let the user click on the link to a website that contains the Spy Pixel. This way, the user's IP address will be logged when the user visits the website.
 
 <img src="img/provider.png">
 
+*Provider proxy of Gmail, outlook that get logs instead of the user's IP address*
 
 ### **Proton Mail may detect and block the Spy Pixel.**
 
 <img src="img/protonmail.png">
+
+*Proton Mail detects the Spy Pixel*
 
 ## ⚠️ Warning ⚠️
 

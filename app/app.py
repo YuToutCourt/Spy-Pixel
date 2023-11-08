@@ -93,24 +93,20 @@ def index():
 
 @app.route("/image")
 def spy_pixel():
-    return render_template("index.html")
+    file_path = os.path.join(os.path.dirname(__file__), 'static', 'spy_pixel.png')
 
-@app.route("/suiiii", methods=["POST"])
-def handle_data_from_js():
-    data = request.get_json()
-    ip = data["ip"]
-    user_agent = data["user_agent"]
-    time_stamp = data["time_stamp"]
+    user_agent = request.headers.get('User-Agent')
 
-    date_format = "%Y-%m-%dT%H:%M:%S.%fZ"
-    date_obj = datetime.strptime(time_stamp, date_format)
+    current_time = datetime.now()
+    sql_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
-    formatted_date = date_obj.strftime("%Y-%m-%d %H:%M:%S")
-    data = fetch_data(ip)
-    ic(data, formatted_date, user_agent)
-    insert_data(data, formatted_date, user_agent)
 
-    return jsonify({"status": "ok"})
+    ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+    data = fetch_data(ip_addr)
+    ic(data, sql_time, user_agent)
+    insert_data(data, sql_time, user_agent)
+
+    return send_file(file_path, mimetype='image/png')
 
 
 if __name__ == "__main__":

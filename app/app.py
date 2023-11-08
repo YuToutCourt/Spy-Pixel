@@ -18,7 +18,7 @@ app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 
 def output_to_file(data):
-    with open("spylog.txt", "a") as f:
+    with open("spylog.log", "a") as f:
         f.write(f"{data}\n")
 
 

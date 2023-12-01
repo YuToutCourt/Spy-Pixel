@@ -113,6 +113,3 @@ Spy pixels can collect personal data without explicit user consent, potentially 
 The use of a spy pixel is prohibited. Companies must ensure GDPR compliance when using tracking technologies to avoid penalties and fines. It's worth noting that the Privacy and Electronic Communications Regulations (PECR) of 2003 already restrict the use of tracking pixels. Website owners must also explicitly mention the use of tracking pixels in their privacy policy.
 
 This is my README for SpyPixel. I have translated, corrected errors, and improved the content. It is provided in markdown format.
-
-
-
